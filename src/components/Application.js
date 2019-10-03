@@ -48,6 +48,21 @@ export default function Application(props) {
       }
     });
 };
+const deleteInterview = (id) => {
+  return axios.delete(`/api/appointments/${id}`).then(response => {
+    if (response.status >= 200 && response.status < 300) {
+      const appointment = {
+        ...state.appointments[id],
+        interview: null
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      setState({ ...state, appointments });
+    }
+  });
+}
   const scheduleData = getAppointmentsForDay(state, state.day).map(
     appointment => {
       const interview = getInterview(state, appointment.interview);
@@ -60,6 +75,7 @@ export default function Application(props) {
           interview={interview}
           interviewers={interviewers}
           bookInterview={bookInterview}
+          deleteInterview={deleteInterview}
         />
       );
     }

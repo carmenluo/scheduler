@@ -4,6 +4,7 @@ import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import Form from "./Form";
+import Confirm from "./Confirm";
 import useVisualMode from "hooks/useVisualMode";
 import { action } from "@storybook/addon-actions";
 import Status from "./Status";
@@ -27,8 +28,13 @@ export default function Appointment(props) {
     };
     transition(SAVING);
     props.bookInterview(props.id, interview)
-    .then(()=>transition(SHOW));
-    
+      .then(() => transition(SHOW));
+  }
+
+  function deleteInterview() {
+    transition(DELETING);
+    props.deleteInterview(props.id)
+      .then(() => transition(EMPTY));
   }
   // return props.interview
   //   ? <><Header time={props.time} /><Show student={props.interview.student}
@@ -36,25 +42,32 @@ export default function Appointment(props) {
   //     onEdit={action("onEdit")}
   //     onDelete={action("onDelete")} /></>
   //   : <><Header time={props.time} /> <Empty onAdd={action("onAdd")} /></>
- return (<article className="appointment">
- {mode === EMPTY && <Empty onAdd={()=>transition(CREATE)} />}
-  {mode === SHOW && (
-    <Show
-      student={props.interview.student}
-      interviewer={props.interview.interviewer}
-    />
-  )}
-  {mode === CREATE && (
-    <Form
-          name={props.interview}
-          interviewers={props.interviewers}
-          onSave={save}
+  return (<article className="appointment">
+    {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+    {mode === SHOW && (
+      <Show
+        student={props.interview.student}
+        interviewer={props.interview.interviewer}
+        onDelete={()=> transition(CONFIRM)}
+      />
+    )}
+    {mode === CREATE && (
+      <Form
+        name={props.interview}
+        interviewers={props.interviewers}
+        onSave={save}
+        onCancel={() => back()}
+      />
+    )}
+    {mode === CONFIRM && (
+        <Confirm
+          message="Delete this appointment?"
+          onConfirm={() => deleteInterview()}
           onCancel={() => back()}
         />
-  ) 
-  }
-  {mode === SAVING && (
-    <Status message='Saving'/>
-  )}
+      )}
+    {mode === SAVING && <Status message='Saving' />}
+
+    {mode === DELETING && <Status message='Deleting' />}
   </article>)
 }
