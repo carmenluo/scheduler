@@ -3,66 +3,18 @@ import DayList from "./DayList";
 import "components/Application.scss";
 import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../helpers/selectors";
+import useApplicationData from "hooks/useApplicationData";
 import axios from "axios";
 
 export default function Application(props) {
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
-  });
+  const {
+    state,
+    setDay,
+    bookInterview,
+    deleteInterview
+  } = useApplicationData();
 
-  const setDay = day => setState({ ...state, day });
-
-  const getDaysData = axios.get("/api/days");
-  const getAppointmentData = axios.get("/api/appointments");
-  const getInterviewersData = axios.get("/api/interviewers");
-
-  useEffect(() => {
-    Promise.all([getDaysData, getAppointmentData, getInterviewersData]).then(
-      all => {
-        const [days, appointments, interviewers] = all;
-        console.log(interviewers);
-        setState(prev => ({
-          days: days.data,
-          appointments: appointments.data,
-          interviewers: interviewers.data
-        }));
-      }
-    );
-  }, []);
-  const bookInterview = (id, interview) => {
-   return axios.put(`/api/appointments/${id}`, {interview})
-    .then(response => {
-      if (response.status >= 200 && response.status < 300) {
-        const appointment = {
-          ...state.appointments[id],
-          interview: { ...interview }
-        };
-        const appointments = {
-          ...state.appointments,
-          [id]: appointment
-        };
-        setState({ ...state, appointments });
-      }
-    });
-};
-const deleteInterview = (id) => {
-  return axios.delete(`/api/appointments/${id}`).then(response => {
-    if (response.status >= 200 && response.status < 300) {
-      const appointment = {
-        ...state.appointments[id],
-        interview: null
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-      setState({ ...state, appointments });
-    }
-  });
-}
+ 
   const scheduleData = getAppointmentsForDay(state, state.day).map(
     appointment => {
       const interview = getInterview(state, appointment.interview);
