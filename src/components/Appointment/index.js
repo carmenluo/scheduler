@@ -28,13 +28,21 @@ export default function Appointment(props) {
     };
     transition(SAVING);
     props.bookInterview(props.id, interview)
-      .then(() => transition(SHOW));
+      .then(() => transition(SHOW))
+      .catch(err => {
+        transition(ERROR_SAVE, true);
+        console.error(err);
+      });
   }
 
   function deleteInterview() {
-    transition(DELETING);
+    transition(DELETING, true);
     props.deleteInterview(props.id)
-      .then(() => transition(EMPTY));
+      .then(() => transition(EMPTY))
+      .catch(err => {
+        transition(ERROR_DELETE, true);
+        console.error(err);
+      });
   }
   // return props.interview
   //   ? <><Header time={props.time} /><Show student={props.interview.student}
@@ -79,5 +87,17 @@ export default function Appointment(props) {
         onSave={save}
         onCancel={() => back()}
       />}
+       {mode === ERROR_SAVE && (
+        <Error
+          message={"Error with saving appointment, please try again."}
+          onClose={() => back()}
+        />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error
+          message={"Error with deleting, please try again."}
+          onClose={() => back()}
+        />
+      )}
   </article>)
 }
