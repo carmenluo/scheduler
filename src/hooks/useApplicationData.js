@@ -16,11 +16,11 @@ export default function useApplicaionData() {
     console.log(action.type);
     switch (action.type) {
       case SET_DAY:
-        return { ...state, day:action.value };
+        return { ...state, day: action.value };
       case SET_APPLICATION_DATA:
         return { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers }
       case SET_INTERVIEW: {
-        return { ...state, appointments: action.value }
+        return { ...state, appointments: action.value, days:action.days }
       }
       default:
         throw new Error(
@@ -34,7 +34,7 @@ export default function useApplicaionData() {
     appointments: {},
     interviewers: {}
   });
-  const setDay = day => {dispatch({ type: SET_DAY, value: day })};
+  const setDay = day => { dispatch({ type: SET_DAY, value: day }) };
 
   const getDaysData = axios.get("/api/days");
   const getAppointmentData = axios.get("/api/appointments");
@@ -50,14 +50,16 @@ export default function useApplicaionData() {
         //   appointments: appointments.data,
         //   interviewers: interviewers.data
         // }));
-       dispatch({type: SET_APPLICATION_DATA,  days: days.data, appointments: appointments.data, interviewers: interviewers.data})
+        console.log(`WHERE IS ME ${days.data[0].name}`);
+        dispatch({ type: SET_APPLICATION_DATA, days: days.data, appointments: appointments.data, interviewers: interviewers.data })
       }
     );
-  }, []);
+  }, [state]);
   const bookInterview = (id, interview) => {
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
+          console.log("interview" + interview)
           const appointment = {
             ...state.appointments[id],
             interview: { ...interview }
@@ -66,10 +68,21 @@ export default function useApplicaionData() {
             ...state.appointments,
             [id]: appointment
           };
-          dispatch({ type: "SET_INTERVIEW",  value: appointments });
+          const days = updateSpots(state,true);
+          dispatch({ type: "SET_INTERVIEW", value: appointments, days });
         }
       });
   };
+  const updateSpots = (state, addOneSpot) => {
+    return state.days.map((day) => {
+      if (day.name !== state.day) {
+        return day;
+      }
+      return {
+        ...day, spots: addOneSpot ? day.spots++ : day.spots--
+      }
+    })
+  }
   const deleteInterview = (id) => {
     return axios.delete(`/api/appointments/${id}`).then(response => {
       if (response.status >= 200 && response.status < 300) {
@@ -81,7 +94,8 @@ export default function useApplicaionData() {
           ...state.appointments,
           [id]: appointment
         };
-        dispatch({ type: SET_INTERVIEW,  value: appointments });
+        const days = updateSpots(state,false);
+        dispatch({ type: SET_INTERVIEW, value: appointments, days });
       }
     });
   }
