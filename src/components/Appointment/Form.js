@@ -9,6 +9,18 @@ function onCancel() {
   setName("");
   setInterviewer(null);
 }
+
+const validate = () => {
+  console.log("click");
+  // if (studentName === "") {
+  //   setError("Student name cannot be blank");
+  //   return;
+  // }
+
+  // setError("");
+  props.onSave(name, interviewer);
+}; 
+
   return <main className="appointment__card appointment__card--create">
   <section className="appointment__card-left">
     <form autoComplete="off" onSubmit={event => event.preventDefault()}>
@@ -28,7 +40,7 @@ function onCancel() {
   <section className="appointment__card-right">
     <section className="appointment__actions">
       <Button danger onClick={props.onCancel}>Cancel</Button>
-      <Button confirm onClick={props.onSave}>Save</Button>
+      <Button confirm onClick={()=>validate()}>Save</Button>
     </section>
   </section>
 </main>

@@ -32,7 +32,22 @@ export default function Application(props) {
       }
     );
   }, []);
-
+  const bookInterview = (id, interview) => {
+   return axios.put(`/api/appointments/${id}`, {interview})
+    .then(response => {
+      if (response.status >= 200 && response.status < 300) {
+        const appointment = {
+          ...state.appointments[id],
+          interview: { ...interview }
+        };
+        const appointments = {
+          ...state.appointments,
+          [id]: appointment
+        };
+        setState({ ...state, appointments });
+      }
+    });
+};
   const scheduleData = getAppointmentsForDay(state, state.day).map(
     appointment => {
       const interview = getInterview(state, appointment.interview);
@@ -44,6 +59,7 @@ export default function Application(props) {
           key={appointment.id}
           interview={interview}
           interviewers={interviewers}
+          bookInterview={bookInterview}
         />
       );
     }
