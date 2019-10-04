@@ -1,19 +1,14 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import axios from "axios";
 export default function useApplicaionData() {
-  // const [state, setState] = useState({
-  //   day: "Monday",
-  //   days: [],
-  //   appointments: {},
-  //   interviewers: {}
-  // });
-
+  let webSocket = new WebSocket("ws://localhost:8001");
+//  webSocket.send('I am not sure if this is working');
+webSocket.onopen = (event => {webSocket.send("ping")});
 
   const SET_DAY = 'SET_DAY';
   const SET_APPLICATION_DATA = 'SET_APPLICATION_DATA';
   const SET_INTERVIEW = 'SET_INTERVIEW';
   function reducer(state, action) {
-    console.log(action.type);
     switch (action.type) {
       case SET_DAY:
         return { ...state, day: action.value };
@@ -44,17 +39,11 @@ export default function useApplicaionData() {
     Promise.all([getDaysData, getAppointmentData, getInterviewersData]).then(
       all => {
         const [days, appointments, interviewers] = all;
-        console.log(interviewers);
-        // setState(prev => ({
-        //   days: days.data,
-        //   appointments: appointments.data,
-        //   interviewers: interviewers.data
-        // }));
-        console.log(`WHERE IS ME ${days.data[0].name}`);
         dispatch({ type: SET_APPLICATION_DATA, days: days.data, appointments: appointments.data, interviewers: interviewers.data })
       }
     );
-  }, [state]);
+  }, []);
+
   const bookInterview = (id, interview) => {
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(response => {
