@@ -16,4 +16,4 @@ export default function reducer(state, action) {
       );
   }
 }
-export { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, UPDATE_SPOTS_REMAINING };
+export { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW };
