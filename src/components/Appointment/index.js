@@ -51,7 +51,7 @@ export default function Appointment(props) {
   //     onEdit={action("onEdit")}
   //     onDelete={action("onDelete")} /></>
   //   : <><Header time={props.time} /> <Empty onAdd={action("onAdd")} /></>
-  return (<article className="appointment">
+  return (<article className="appointment" data-testid='appointment'> 
     {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
     {mode === SHOW && (
       <Show
