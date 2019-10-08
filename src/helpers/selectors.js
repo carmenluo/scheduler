@@ -8,6 +8,7 @@ export function getAppointmentsForDay(state, day) {
       );
     }
   }
+  console.log(`fileterAppointments ${filteredAppointments}`)
   return filteredAppointments;
 }
 
