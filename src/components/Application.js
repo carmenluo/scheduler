@@ -14,7 +14,7 @@ export default function Application(props) {
     deleteInterview
   } = useApplicationData();
 
- 
+
   const scheduleData = getAppointmentsForDay(state, state.day).map(
     appointment => {
       const interview = getInterview(state, appointment.interview);
@@ -52,7 +52,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         <ul>{scheduleData}
-        <Appointment id="last" />
+          <Appointment id="last" />
         </ul>
       </section>
     </main>

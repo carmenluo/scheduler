@@ -47,7 +47,7 @@ export default function useApplicaionData() {
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           let eventData = {id, interview};
-           dispatch({ type: "SET_INTERVIEW", eventData });
+          //  dispatch({ type: "SET_INTERVIEW", eventData });
         }
       });
   };
@@ -56,7 +56,7 @@ export default function useApplicaionData() {
     return axios.delete(`/api/appointments/${id}`).then(response => {
       if (response.status >= 200 && response.status < 300) {
         let eventData = {id, interview: null};
-        dispatch({ type: SET_INTERVIEW, eventData });
+        // dispatch({ type: SET_INTERVIEW, eventData });
       }
     });
   }
