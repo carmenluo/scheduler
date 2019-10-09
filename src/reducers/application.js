@@ -10,7 +10,7 @@ const updateSpots = (state, addOneSpot) => {
     if (day.name !== state.day) {
       return day;
     } else {
-      if (addOneSpot){
+      if (addOneSpot) {
         currentSpot = day.spots - 1;
       } else {
         currentSpot = day.spots + 1;
@@ -30,7 +30,7 @@ const reducer = function (state, action) {
       return { ...state, day: action.value };
     case SET_APPLICATION_DATA:
       return { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers }
-    case SET_INTERVIEW: {
+    case SET_INTERVIEW:
       const appointment = {
         ...state.appointments[action.eventData.id],
         interview: action.eventData.interview ? { ...action.eventData.interview } : null
@@ -39,13 +39,19 @@ const reducer = function (state, action) {
         ...state.appointments,
         [action.eventData.id]: appointment
       };
+      //if edit an interview, we don't need to update spots
+      if (state.appointments[action.eventData.id].interview) {
+        return { ...state, appointments };
+      }
+      //if delete or create, call updateSpots to update spots in '/api/days'
       let days = action.eventData.interview ? updateSpots(state, true) : updateSpots(state, false);
-      return { ...state, appointments, days }
-    }
+      return { ...state, appointments, days };
+
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
       );
   }
 }
+
 export { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, reducer };

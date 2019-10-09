@@ -8,7 +8,8 @@ import {reducer,
 export default function useApplicaionData() {
   //Update WebSocket when client received from server, we can update appointments accordingly
   useEffect(() => {
-    const wss = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    // const wss = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    const wss = new WebSocket('ws://localhost:8001');
     wss.onopen = function(event) {
       wss.onmessage = function(event) {
         const eventData = JSON.parse(event.data);
@@ -46,14 +47,18 @@ export default function useApplicaionData() {
   const bookInterview = (id, interview) => {
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(response => {
+        let eventData = {id, interview};
         if (response.status >= 200 && response.status < 300) {
+          dispatch({ type: SET_INTERVIEW, eventData });
         }
       });
   };
   
   const deleteInterview = (id) => {
     return axios.delete(`/api/appointments/${id}`).then(response => {
+      let eventData = {id, interview: null};
       if (response.status >= 200 && response.status < 300) {
+        dispatch({ type: SET_INTERVIEW, eventData });
       }
     });
   }

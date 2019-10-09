@@ -45,6 +45,7 @@ describe("Application", () => {
     const deleted = queryByText(appointment, "Archie Cohen");
     await expect(deleted).not.toBeInTheDocument();
   });
+//add debug() in the test can retrive DOM into JEST
   it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
     const { container,debug } = render(<Application />);
     await waitForElement(() => getByText(container, "Archie Cohen"));
@@ -63,7 +64,8 @@ describe("Application", () => {
     );
     expect(getByText(day, /no spots remaining/i)).toBeInTheDocument();
   });
-    it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
+   
+  it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
     const { container, debug } = render(<Application />);
     await waitForElement(() => getByText(container, "Archie Cohen"));
     const appointments = getAllByTestId(container, "appointment");
