@@ -1,6 +1,9 @@
 const SET_DAY = 'SET_DAY';
 const SET_APPLICATION_DATA = 'SET_APPLICATION_DATA';
 const SET_INTERVIEW = 'SET_INTERVIEW';
+/*
+if addOneSpot true means bookInterview otherwise deleteInterview
+*/
 const updateSpots = (state, addOneSpot) => {
   let currentSpot;
   return state.days.map((day) => {
@@ -18,9 +21,9 @@ const updateSpots = (state, addOneSpot) => {
     }
   })
 }
-// const getDayData = function(id) {
-
-// }
+/*
+export reducer to useApplcationData so that it knows when to update appointment info
+*/
 const reducer = function (state, action) {
   switch (action.type) {
     case SET_DAY:
@@ -36,10 +39,7 @@ const reducer = function (state, action) {
         ...state.appointments,
         [action.eventData.id]: appointment
       };
-      console.log("beofre " + state.days[0].spots)
       let days = action.eventData.interview ? updateSpots(state, true) : updateSpots(state, false);
-      console.log(days);
-      // debugger;
       return { ...state, appointments, days }
     }
     default:

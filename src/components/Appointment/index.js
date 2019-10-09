@@ -1,13 +1,11 @@
 import React, {useEffect }from "react";
 import "./styles.scss";
-import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import Form from "./Form";
 import Confirm from "./Confirm";
 import Error from "./Error";
 import useVisualMode from "hooks/useVisualMode";
-import { action } from "@storybook/addon-actions";
 import Status from "./Status";
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -22,6 +20,7 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+  /* When we pass new props to the Appointment component, we need to determine if the interview data has changed. We can handle this as a side effect in the Appointment. When the component renders, we want to check if we are in the EMPTY mode with a truthy interview value. When this happens, we can call transition(SHOW) to update the visual mode. The same is true when we remove an interview. We need to transition to the EMPTY visual mode.*/
   useEffect(() => {
     if (props.interview && mode === EMPTY) {
      transition(SHOW);
@@ -30,6 +29,7 @@ export default function Appointment(props) {
      transition(EMPTY);
     }
    }, [props.interview, transition, mode]);
+  //if save success, transition to SAVING (permissive) 
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -42,7 +42,7 @@ export default function Appointment(props) {
         transition(ERROR_SAVE, true);
       });
   }
-
+  
   function deleteInterview() {
     transition(DELETING, true);
     props.deleteInterview(props.id)

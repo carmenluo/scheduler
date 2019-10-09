@@ -1,6 +1,8 @@
 import React from "react";
-import classnames from 'classnames';
 import DayListItem from "./DayListItem";
+/*
+Retrived all DayListItem and put in DayList container
+*/
 export default function DayList(props) {
   const listItems = props.days.map(day =>
     <DayListItem

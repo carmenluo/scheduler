@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import axios from "axios";
 import {reducer,
   SET_DAY,
@@ -6,6 +6,7 @@ import {reducer,
   SET_INTERVIEW
 } from "reducers/application";
 export default function useApplicaionData() {
+  //Update WebSocket when client received from server, we can update appointments accordingly
   useEffect(() => {
     const wss = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     wss.onopen = function(event) {
@@ -46,8 +47,6 @@ export default function useApplicaionData() {
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
-          let eventData = {id, interview};
-          //  dispatch({ type: "SET_INTERVIEW", eventData });
         }
       });
   };
@@ -55,8 +54,6 @@ export default function useApplicaionData() {
   const deleteInterview = (id) => {
     return axios.delete(`/api/appointments/${id}`).then(response => {
       if (response.status >= 200 && response.status < 300) {
-        let eventData = {id, interview: null};
-        // dispatch({ type: SET_INTERVIEW, eventData });
       }
     });
   }

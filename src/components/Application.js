@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import DayList from "./DayList";
 import "components/Application.scss";
 import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../helpers/selectors";
 import useApplicationData from "hooks/useApplicationData";
-import axios from "axios";
 
 export default function Application(props) {
   const {
@@ -13,8 +12,9 @@ export default function Application(props) {
     bookInterview,
     deleteInterview
   } = useApplicationData();
-
-
+  /*
+  Get appointments and interviews based on different day and update appointment views
+  */
   const scheduleData = getAppointmentsForDay(state, state.day).map(
     appointment => {
       const interview = getInterview(state, appointment.interview);
@@ -51,6 +51,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
+        {/* In react use id to uniquely identify appointment, we need to add one at the end to show the container */}
         <ul>{scheduleData}
           <Appointment id="last" />
         </ul>
