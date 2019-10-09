@@ -1,5 +1,4 @@
 export function getAppointmentsForDay(state, day) {
-  console.log(state);
   let filteredAppointments = [];
   for (let days of state.days) {
     if (days.name === day) {
@@ -8,7 +7,6 @@ export function getAppointmentsForDay(state, day) {
       );
     }
   }
-  console.log(`fileterAppointments ${filteredAppointments}`)
   return filteredAppointments;
 }
 

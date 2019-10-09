@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect }from "react";
 import "./styles.scss";
 import Header from "./Header";
 import Show from "./Show";
@@ -19,10 +19,17 @@ const DELETING = "DELETING";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 export default function Appointment(props) {
-  console.log("creating appointment");
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+  useEffect(() => {
+    if (props.interview && mode === EMPTY) {
+     transition(SHOW);
+    }
+    if (props.interview === null && mode === SHOW) {
+     transition(EMPTY);
+    }
+   }, [props.interview, transition, mode]);
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -33,7 +40,6 @@ export default function Appointment(props) {
       .then(() => transition(SHOW))
       .catch(err => {
         transition(ERROR_SAVE, true);
-        console.error(err);
       });
   }
 
@@ -43,19 +49,12 @@ export default function Appointment(props) {
       .then(() => transition(EMPTY))
       .catch(err => {
         transition(ERROR_DELETE, true);
-        console.error(err);
       });
-  }
-  // return props.interview
-  //   ? <><Header time={props.time} /><Show student={props.interview.student}
-  //     interviewer={props.interview.interviewer}
-  //     onEdit={action("onEdit")}
-  //     onDelete={action("onDelete")} /></>
-  //   : <><Header time={props.time} /> <Empty onAdd={action("onAdd")} /></>
+    }
   return (<article className="appointment" data-testid='appointment'> 
   <p>{props.time}</p>
     {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-    {mode === SHOW && (
+    {mode === SHOW  && props.interview  && (
       <Show
         student={props.interview.student}
         interviewer={props.interview.interviewer}
