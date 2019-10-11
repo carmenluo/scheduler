@@ -43,6 +43,9 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList days={state.days} day={state.day} setDay={setDay} />
+          <div id="dashboard">
+            <a href="*">Dashboard</a>
+          </div>
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
