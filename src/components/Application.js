@@ -36,9 +36,10 @@ export default function Application(props) {
     <main className="layout">
       <section className="sidebar">
         <img
-          className="sidebar--centered"
+          className="sidebar--centered logo"
           src="images/appointmenter.png"
           alt="Appointment~er"
+          width="220px"
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
