@@ -28,33 +28,6 @@ const updateSpots = (state, addOneSpot) => {
     }
   })
 }
-// //get Report Data
-// const getReportData = (state) => {
-//   const reportData = [
-//     {
-//       id: 1,
-//       label: "Total Interviews",
-//       getValue: getTotalInterviews(state)
-//     },
-//     {
-//       id: 2,
-//       label: "Least Popular Time Slot",
-//       getValue: getLeastPopularTimeSlot(state)
-//     },
-//     {
-//       id: 3,
-//       label: "Most Popular Day",
-//       getValue: getMostPopularDay(state)
-//     },
-//     {
-//       id: 4,
-//       label: "Interviews Per Day",
-//       getValue: getInterviewsPerDay(state)
-//     }
-//   ]
-//   console.log(reportData)
-//   return reportData;
-// }
 /*
 export reducer to useApplcationData so that it knows when to update appointment info
 */

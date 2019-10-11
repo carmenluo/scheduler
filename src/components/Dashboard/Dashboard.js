@@ -100,54 +100,41 @@
 // }
 
 // export default Dashboard;
-import React from "react";
+import React, {useState} from "react";
 import "./Dashboard.scss";
 import classnames from "classnames";
 import Panel from "./Panel";
 import useApplicationData from "../../hooks/useApplicationData";
 import { setInterview } from "../../reducers/application";
-import {
-  getTotalInterviews,
-  getLeastPopularTimeSlot,
-  getMostPopularDay,
-  getInterviewsPerDay
-} from "helpers/selectors";
-// const data = [
-//   {
-//     id: 1,
-//     label: "Total Interviews",
-//     getValue: getTotalInterviews
-//   },
-//   {
-//     id: 2,
-//     label: "Least Popular Time Slot",
-//     getValue: getLeastPopularTimeSlot
-//   },
-//   {
-//     id: 3,
-//     label: "Most Popular Day",
-//     getValue: getMostPopularDay
-//   },
-//   {
-//     id: 4,
-//     label: "Interviews Per Day",
-//     getValue: getInterviewsPerDay
-//   }
-// ];
+
+
 function Dashboard(props) {
   //Get Application Data
   let data = props.reportData;
   const {
     state,
-    setDay,
-    bookInterview,
-    deleteInterview
   } = useApplicationData();
-  const dashboardClasses = classnames("dashboard");
+  const [focused, setFocused] = useState(null); 
+  const dashboardClasses = classnames("dashboard", {
+    "dashboard--focused": focused
+  });
+  function selectPanel(id) {
+    if (focused){
+      setFocused(null);
+    } else {
+      setFocused(id)
+    }
+  }
   if (data) {
     console.log(data)
-    const panels = data.map(panel => {
-      return <Panel key={panel.id} id={panel.id} label={panel.label} value={panel.getValue(state)} />
+    const panels = data
+    .filter(
+      panel => focused === null || focused === panel.id
+    )
+    .map(panel => {
+      return <Panel key={panel.id} id={panel.id} label={panel.label} value={panel.getValue(state)} onSelect={()=> {
+        console.log('click')
+        selectPanel(panel.id)}}/>
     })
     return <main className={dashboardClasses} >
       {panels}

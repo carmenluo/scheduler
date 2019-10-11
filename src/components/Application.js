@@ -80,14 +80,16 @@ const showReport = function(state){
         <nav className="sidebar__menu">
           <DayList days={state.days} day={state.day} setDay={setDay} />
           <div id="dashboard">
-            <button onClick={()=>setDay("Monday")}>Dashboard</button>
+            <button onClick={()=>setDay("")}>Dashboard</button>
           </div>
         </nav>
         <img
-          className="sidebar__lhl sidebar--centered"
-          src="images/lhl.png"
-          alt="Lighthouse Labs"
+          className="sidebar__foot sidebar--centered"
+          src="images/calendar.png"
+          alt="calendar"
+          width="100px"
         />
+         <footer><div className="circle" data-locale="de" data-city="berlin" data-citytitle="Berlin" >CONTACT ME</div></footer>
       </section>
       <section className="schedule">
         {/* In react use id to uniquely identify appointment, we need to add one at the end to show the container */}
@@ -96,6 +98,7 @@ const showReport = function(state){
           <Dashboard reportData={showReport(state)}></Dashboard>
         </ul>
       </section>
+     
     </main>
   );
 }
