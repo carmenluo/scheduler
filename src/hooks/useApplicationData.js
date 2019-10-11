@@ -3,7 +3,7 @@ import axios from "axios";
 import {reducer,
   SET_DAY,
   SET_APPLICATION_DATA,
-  SET_INTERVIEW
+  SET_INTERVIEW,
 } from "reducers/application";
 export default function useApplicaionData() {
   //Update WebSocket when client received from server, we can update appointments accordingly
@@ -24,13 +24,14 @@ export default function useApplicaionData() {
   }, []);
 
   const [state, dispatch] = useReducer(reducer, {
-    day: "Monday",
+    day: "",
     days: [],
     appointments: {},
-    interviewers: {}
+    interviewers: {},
+    reports:[]
   });
   const setDay = day => { dispatch({ type: SET_DAY, value: day }) };
-
+  // const getReport = day => {dispatch({type: GET_REPORT, value: day})}
   const getDaysData = axios.get("/api/days");
   const getAppointmentData = axios.get("/api/appointments");
   const getInterviewersData = axios.get("/api/interviewers");

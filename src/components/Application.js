@@ -2,7 +2,10 @@ import React from "react";
 import DayList from "./DayList";
 import "components/Application.scss";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay,getTotalInterviews,
+  getLeastPopularTimeSlot,
+  getMostPopularDay,
+  getInterviewsPerDay } from "../helpers/selectors";
 import useApplicationData from "hooks/useApplicationData";
 import Dashboard from "./Dashboard/Dashboard";
 
@@ -33,6 +36,37 @@ export default function Application(props) {
       );
     }
   );
+
+const showReport = function(state){
+  if (!state.day) {
+    const reportData = [
+      {
+        id: 1,
+        label: "Total Interviews",
+        getValue: getTotalInterviews
+      },
+      {
+        id: 2,
+        label: "Least Popular Time Slot",
+        getValue: getLeastPopularTimeSlot
+      },
+      {
+        id: 3,
+        label: "Most Popular Day",
+        getValue: getMostPopularDay
+      },
+      {
+        id: 4,
+        label: "Interviews Per Day",
+        getValue: getInterviewsPerDay
+      }
+    ];
+    console.log(reportData);
+    return reportData;
+  } else {
+    return null;
+  }
+}
   return (
     <main className="layout">
       <section className="sidebar">
@@ -46,7 +80,7 @@ export default function Application(props) {
         <nav className="sidebar__menu">
           <DayList days={state.days} day={state.day} setDay={setDay} />
           <div id="dashboard">
-            <a href="*">Dashboard</a>
+            <button onClick={()=>setDay("Monday")}>Dashboard</button>
           </div>
         </nav>
         <img
@@ -59,8 +93,8 @@ export default function Application(props) {
         {/* In react use id to uniquely identify appointment, we need to add one at the end to show the container */}
         <ul>{scheduleData}
           <Appointment id="last" />
+          <Dashboard reportData={showReport(state)}></Dashboard>
         </ul>
-        <div><Dashboard></Dashboard></div>
       </section>
     </main>
   );

@@ -1,3 +1,6 @@
+@import "../../styles/variables.scss";
+@import "../../styles/reset.scss";
+$dashed-blue: 2px dashed #18AACB;
 .loading,
 .dashboard {
   display: grid;
@@ -22,7 +25,8 @@
 }
 
 .dashboard__panel {
-  color: #05c46b;
+  background-color: #D8D0C1;
+  color: #18AACB;
   width: 100%;
   height: 100%;
   display: flex;
@@ -35,21 +39,21 @@
 }
 
 .dashboard__panel:first-of-type {
-  border-right: $dashed-green;
-  border-bottom: $dashed-green;
+  border-right: $dashed-blue;
+  border-bottom: $dashed-blue;
 }
 
 .dashboard__panel:nth-of-type(2) {
-  border-bottom: $dashed-green;
+  border-bottom: $dashed-blue;
 }
 
 .dashboard__panel:nth-of-type(3) {
-  border-right: $dashed-green;
+  border-right: $dashed-blue;
 }
 
 .loading,
 .dashboard--focused .dashboard__panel {
-  border: $dashed-green;
+  border: $dashed-blue;
   border-width: 1rem;
 }
 

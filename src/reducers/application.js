@@ -1,7 +1,13 @@
 import { filter } from "lodash/fp";
+import {  getTotalInterviews,
+  getLeastPopularTimeSlot,
+  getMostPopularDay,
+  getInterviewsPerDay } from "../helpers/selectors";
+import { get } from "https";
 const SET_DAY = 'SET_DAY';
 const SET_APPLICATION_DATA = 'SET_APPLICATION_DATA';
 const SET_INTERVIEW = 'SET_INTERVIEW';
+const GET_REPORT = 'GET_REPORT';
 /*
 if addOneSpot true means bookInterview otherwise deleteInterview
 */
@@ -22,6 +28,33 @@ const updateSpots = (state, addOneSpot) => {
     }
   })
 }
+// //get Report Data
+// const getReportData = (state) => {
+//   const reportData = [
+//     {
+//       id: 1,
+//       label: "Total Interviews",
+//       getValue: getTotalInterviews(state)
+//     },
+//     {
+//       id: 2,
+//       label: "Least Popular Time Slot",
+//       getValue: getLeastPopularTimeSlot(state)
+//     },
+//     {
+//       id: 3,
+//       label: "Most Popular Day",
+//       getValue: getMostPopularDay(state)
+//     },
+//     {
+//       id: 4,
+//       label: "Interviews Per Day",
+//       getValue: getInterviewsPerDay(state)
+//     }
+//   ]
+//   console.log(reportData)
+//   return reportData;
+// }
 /*
 export reducer to useApplcationData so that it knows when to update appointment info
 */
@@ -30,7 +63,8 @@ const reducer = function (state, action) {
     case SET_DAY:
       return { ...state, day: action.value };
     case SET_APPLICATION_DATA:
-      return { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers }
+
+      return { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers}
     case SET_INTERVIEW:
       const appointment = {
         ...state.appointments[action.eventData.id],

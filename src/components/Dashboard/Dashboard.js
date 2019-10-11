@@ -65,7 +65,7 @@
 //     this.socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 //     this.socket.onmessage = event => {
 //       const data = JSON.parse(event.data);
-    
+
 //       if (typeof data === "object" && data.type === "SET_INTERVIEW") {
 //         this.setState(previousState =>
 //           setInterview(previousState, data.id, data.interview)
@@ -101,7 +101,7 @@
 
 // export default Dashboard;
 import React from "react";
-
+import "./Dashboard.scss";
 import classnames from "classnames";
 import Panel from "./Panel";
 import useApplicationData from "../../hooks/useApplicationData";
@@ -111,46 +111,50 @@ import {
   getLeastPopularTimeSlot,
   getMostPopularDay,
   getInterviewsPerDay
- } from "helpers/selectors";
- const data = [
-  {
-    id: 1,
-    label: "Total Interviews",
-    getValue: getTotalInterviews
-  },
-  {
-    id: 2,
-    label: "Least Popular Time Slot",
-    getValue: getLeastPopularTimeSlot
-  },
-  {
-    id: 3,
-    label: "Most Popular Day",
-    getValue: getMostPopularDay
-  },
-  {
-    id: 4,
-    label: "Interviews Per Day",
-    getValue: getInterviewsPerDay
-  }
-];
-function Dashboard (props) {
+} from "helpers/selectors";
+// const data = [
+//   {
+//     id: 1,
+//     label: "Total Interviews",
+//     getValue: getTotalInterviews
+//   },
+//   {
+//     id: 2,
+//     label: "Least Popular Time Slot",
+//     getValue: getLeastPopularTimeSlot
+//   },
+//   {
+//     id: 3,
+//     label: "Most Popular Day",
+//     getValue: getMostPopularDay
+//   },
+//   {
+//     id: 4,
+//     label: "Interviews Per Day",
+//     getValue: getInterviewsPerDay
+//   }
+// ];
+function Dashboard(props) {
   //Get Application Data
+  let data = props.reportData;
   const {
     state,
     setDay,
     bookInterview,
     deleteInterview
   } = useApplicationData();
-    const dashboardClasses = classnames("dashboard");
-const panels = data.map(panel => {
-  return <Panel key={panel.id} id ={panel.id} label={panel.label} value = {panel.getValue(state)}/>
-})
+  const dashboardClasses = classnames("dashboard");
+  if (data) {
+    console.log(data)
+    const panels = data.map(panel => {
+      return <Panel key={panel.id} id={panel.id} label={panel.label} value={panel.getValue(state)} />
+    })
     return <main className={dashboardClasses} >
-      Dashboard
       {panels}
-    </main>;
+    </main>
   }
+  return null;
+}
 
 
 export default Dashboard;
