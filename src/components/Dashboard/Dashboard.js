@@ -104,32 +104,47 @@ import React from "react";
 
 import classnames from "classnames";
 import Panel from "./Panel";
-const data = [
+import useApplicationData from "../../hooks/useApplicationData";
+import { setInterview } from "../../reducers/application";
+import {
+  getTotalInterviews,
+  getLeastPopularTimeSlot,
+  getMostPopularDay,
+  getInterviewsPerDay
+ } from "helpers/selectors";
+ const data = [
   {
     id: 1,
     label: "Total Interviews",
-    value: 6
+    getValue: getTotalInterviews
   },
   {
     id: 2,
     label: "Least Popular Time Slot",
-    value: "1pm"
+    getValue: getLeastPopularTimeSlot
   },
   {
     id: 3,
     label: "Most Popular Day",
-    value: "Wednesday"
+    getValue: getMostPopularDay
   },
   {
     id: 4,
     label: "Interviews Per Day",
-    value: "2.3"
+    getValue: getInterviewsPerDay
   }
 ];
 function Dashboard (props) {
+  //Get Application Data
+  const {
+    state,
+    setDay,
+    bookInterview,
+    deleteInterview
+  } = useApplicationData();
     const dashboardClasses = classnames("dashboard");
 const panels = data.map(panel => {
-  return <Panel key={panel.id} id ={panel.id} label={panel.label} value = {panel.value}/>
+  return <Panel key={panel.id} id ={panel.id} label={panel.label} value = {panel.getValue(state)}/>
 })
     return <main className={dashboardClasses} >
       Dashboard
