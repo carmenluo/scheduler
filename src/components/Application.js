@@ -4,6 +4,7 @@ import "components/Application.scss";
 import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../helpers/selectors";
 import useApplicationData from "hooks/useApplicationData";
+import Dashboard from "./Dashboard/Dashboard";
 
 export default function Application(props) {
   const {
@@ -59,6 +60,7 @@ export default function Application(props) {
         <ul>{scheduleData}
           <Appointment id="last" />
         </ul>
+        <div><Dashboard></Dashboard></div>
       </section>
     </main>
   );
