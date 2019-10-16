@@ -5,11 +5,11 @@ Interview Scheduler is a web application built with React, Axios, and WebSocket 
 ## Final Product
 
 The basic features of this app include: creating a new interview appointment and editing and deleting existing interview appointments on different days.
-!["Basic Features"](https://github.com/carmenluo/scheduler/blob/master/docs/basic.png)
+!["Basic Features"](https://github.com/carmenluo/scheduler/blob/master/docs/basic.gif)
 
 
 Additionally, Websocket has been implemented to allow live updates between multiple users.
-!["Live Update"](https://github.com/carmenluo/scheduler/blob/master/docs/webSocket.png)
+!["Live Update"](https://github.com/carmenluo/scheduler/blob/master/docs/websocket.gif)
 
 ## Setup
 
