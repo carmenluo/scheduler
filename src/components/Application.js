@@ -1,5 +1,6 @@
 import React from "react";
 import DayList from "./DayList";
+import Footer from "./Footer";
 import "components/Application.scss";
 import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay,getTotalInterviews,
@@ -68,6 +69,7 @@ const showReport = function(state){
   }
 }
   return (
+    <div>
     <main className="layout">
       <section className="sidebar">
         <img
@@ -79,8 +81,10 @@ const showReport = function(state){
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList days={state.days} day={state.day} setDay={setDay} />
-          <div id="dashboard">
-            <button onClick={()=>setDay("")}>Dashboard</button>
+          <div id="dashboard" className= "day-list__item">
+            <li>
+              <h2 onClick={()=>setDay("")}>Dashboard</h2>
+            </li>
           </div>
         </nav>
         <img
@@ -89,7 +93,7 @@ const showReport = function(state){
           alt="calendar"
           width="100px"
         />
-         <footer><div className="circle" data-locale="de" data-city="berlin" data-citytitle="Berlin" >CONTACT ME</div></footer>
+       
       </section>
       <section className="schedule">
         {/* In react use id to uniquely identify appointment, we need to add one at the end to show the container */}
@@ -100,5 +104,7 @@ const showReport = function(state){
       </section>
      
     </main>
+     <Footer></Footer>
+     </div>
   );
 }
