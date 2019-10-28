@@ -1,6 +1,13 @@
+import { filter } from "lodash/fp";
+import {  getTotalInterviews,
+  getLeastPopularTimeSlot,
+  getMostPopularDay,
+  getInterviewsPerDay } from "../helpers/selectors";
+import { get } from "https";
 const SET_DAY = 'SET_DAY';
 const SET_APPLICATION_DATA = 'SET_APPLICATION_DATA';
 const SET_INTERVIEW = 'SET_INTERVIEW';
+const GET_REPORT = 'GET_REPORT';
 /*
 if addOneSpot true means bookInterview otherwise deleteInterview
 */
@@ -29,7 +36,8 @@ const reducer = function (state, action) {
     case SET_DAY:
       return { ...state, day: action.value };
     case SET_APPLICATION_DATA:
-      return { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers }
+
+      return { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers}
     case SET_INTERVIEW:
       const appointment = {
         ...state.appointments[action.eventData.id],
@@ -52,6 +60,34 @@ const reducer = function (state, action) {
         `Tried to reduce with unsupported action type: ${action.type}`
       );
   }
+}
+function getSpotsForDay(state, day) {
+  const foundDay = state.days.find(d => d.name === day);
+
+  if (!foundDay) throw new Error(`No Day Found: ${day}`);
+
+  return filter(id => state.appointments[id].interview === null)(
+    foundDay.appointments
+  ).length;
+}
+
+export function setInterview(state, id, interview) {
+  const appointments = {
+    ...state.appointments,
+    [id]: {
+      ...state.appointments[id],
+      interview
+    }
+  };
+
+  return {
+    ...state,
+    days: state.days.map(day => ({
+      ...day,
+      spots: getSpotsForDay({ ...state, appointments }, day.name)
+    })),
+    appointments
+  };
 }
 
 export { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, reducer };

@@ -1,0 +1,82 @@
+@import "../../styles/variables.scss";
+@import "../../styles/reset.scss";
+$dashed-blue: 2px dashed #18AACB;
+.loading,
+.dashboard {
+  display: grid;
+  min-height: 100vh;
+  justify-items: center;
+  align-items: center;
+}
+
+.dashboard {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.loading,
+.dashboard--focused {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+.loading {
+  font-size: 6rem;
+}
+
+.dashboard__panel {
+  background-color: #D8D0C1;
+  color: #18AACB;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 2rem;
+}
+
+.dashboard__panel:first-of-type {
+  border-right: $dashed-blue;
+  border-bottom: $dashed-blue;
+}
+
+.dashboard__panel:nth-of-type(2) {
+  border-bottom: $dashed-blue;
+}
+
+.dashboard__panel:nth-of-type(3) {
+  border-right: $dashed-blue;
+}
+
+.loading,
+.dashboard--focused .dashboard__panel {
+  border: $dashed-blue;
+  border-width: 1rem;
+}
+
+.dashboard__panel-header {
+  font-size: 2em;
+  color: white;
+  margin: 1rem;
+  line-height: 2rem;
+}
+
+.dashboard__panel-value {
+  font-size: 4em;
+  margin: 0;
+  line-height: 4rem;
+}
+
+.dashboard--focused .dashboard__panel-header {
+  font-size: 4em;
+  margin-bottom: 1em;
+  line-height: 1em;
+}
+
+.dashboard--focused .dashboard__panel-value {
+  font-size: 8em;
+  line-height: 1em;
+}
